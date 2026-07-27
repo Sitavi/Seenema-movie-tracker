@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Seenema: 映画記録</string>
+    <string name="brand">Seenema</string>
+
+    <string name="search_hint">映画、シリーズ、人物…</string>
+    <string name="tab_seen">鑑賞済み (%1$d)</string>
+    <string name="tab_watchlist">あとで見る (%1$d)</string>
+    <string name="menu">メニュー</string>
+    <string name="share_csv">CSVを共有</string>
+    <string name="import_csv">CSVをインポート</string>
+    <string name="imported_toast">%1$d件をインポートしました</string>
+    <string name="import_failed">このファイルを読み込めませんでした</string>
+    <string name="sort_by">並び替え: %1$s</string>
+    <string name="sort_date">追加日</string>
+    <string name="sort_rating">自分の評価</string>
+    <string name="sort_year">公開年</string>
+    <string name="sort_asc">昇順</string>
+    <string name="sort_desc">降順</string>
+    <string name="empty_seen">映画やシリーズを検索して\n星をタップすると追加されます</string>
+    <string name="empty_watchlist">あとで見る作品が\nここに表示されます</string>
+    <string name="no_results">結果がありません</string>
+    <string name="search_error">IMDbに接続できません</string>
+    <string name="retry">再試行</string>
+
+    <string name="movie">映画</string>
+    <string name="series">シリーズ</string>
+    <string name="person">人物</string>
+
+    <string name="rate_caption_unrated">星をタップして評価し、鑑賞済みにします</string>
+    <string name="rate_caption_rated">鑑賞済みリストにあります • 同じ星をもう一度タップで削除</string>
+    <string name="watchlist_add">「あとで見る」に追加</string>
+    <string name="watchlist_remove">「あとで見る」にあります • タップで削除</string>
+    <string name="seen_on">鑑賞日 %1$s</string>
+    <string name="edit">編集</string>
+    <string name="edit_dialog_title">メモと日付</string>
+    <string name="note_label">メモ</string>
+    <string name="date_label">鑑賞日 (YYYY-MM-DD)</string>
+    <string name="save">保存</string>
+    <string name="cancel">キャンセル</string>
+
+    <string name="undo">元に戻す</string>
+    <string name="undo_removed_seen">「鑑賞済み」から削除しました</string>
+    <string name="undo_removed_watchlist">「あとで見る」から削除しました</string>
+    <string name="undo_moved_seen">「鑑賞済み」に移動しました</string>
+    <string name="undo_moved_watchlist">「あとで見る」に移動しました</string>
+
+    <string name="trailer">予告編</string>
+    <string name="play_trailer">予告編を再生</string>
+    <string name="cast">キャスト</string>
+    <string name="team">スタッフ</string>
+    <string name="full_team">スタッフ一覧</string>
+    <string name="full_team_count">スタッフ一覧 (%1$d)</string>
+    <string name="other_category">その他</string>
+    <string name="load_error">読み込めません — 接続を確認してください</string>
+    <string name="filmography">出演・製作作品 (%1$d)</string>
+
+    <string name="back">戻る</string>
+    <string name="clear">クリア</string>
+    <string name="rate_star">%1$dで評価</string>
+    <string name="close">閉じる</string>
+
+    <string name="about">このアプリについて</string>
+    <string name="about_version">バージョン %1$s (%2$d)</string>
+    <string name="about_tagline">観た映画やシリーズを記録して評価し、次に観たい作品のリストを作れます。</string>
+    <string name="about_star">GitHubでスターを付ける</string>
+    <string name="about_star_note">無料でオープンソースです。スターは他の人が見つける助けになります。</string>
+    <string name="about_source">ソースコード</string>
+    <string name="about_bug">不具合を報告</string>
+    <string name="about_bug_sub">GitHubでイシューを作成</string>
+    <string name="about_data">作品データ</string>
+    <string name="about_data_sub">タイトル・ポスター・あらすじはIMDb提供</string>
+    <string name="about_licenses">オープンソースライセンス</string>
+    <string name="about_licenses_sub">Seenemaを支えるライブラリ</string>
+    <string name="about_footer">© Sitavi. GNU GPL v3以降のもとで公開されたフリーソフトウェアです。</string>
+    <string name="licenses_app">SeenemaはGNU General Public License バージョン3以降のもとで公開されたフリーソフトウェアです。</string>
+    <string name="licenses_built_with">使用しているもの:</string>
+    <string name="licenses_list">• Jetpack Compose\n• Material 3\n• AndroidX ライブラリ\n• OkHttp\n• Coil</string>
+    <string name="licenses_data">作品データはIMDbから取得しています。IMDbは限定的な個人利用・非商用利用を認めています。</string>
+    <string name="link_failed">リンクを開けませんでした</string>
+</resources>

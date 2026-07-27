@@ -1,0 +1,15 @@
+Tieni traccia dei film e delle serie che hai visto, votali da uno a cinque e conserva una lista di cosa vedere.
+
+Nessun account, nessuna pubblicità, nessun tracciamento. Tutto resta sul telefono.
+
+Funzioni:
+
+* Cerca film, serie e persone da un unico campo
+* Vota con un tocco: il titolo finisce subito tra quelli visti
+* Tieni una lista «Da vedere»; i titoli passano tra i «Visti» appena li voti
+* Schede con trama, voto IMDb, cast, troupe completa e trailer, riprodotto nell'app
+* Schede delle persone con la filmografia completa
+* Aggiungi una nota personale e la data in cui l'hai visto
+* La tua lista è un semplice file CSV sul telefono, che puoi esportare e reimportare
+
+Titoli, locandine e trame provengono da IMDb, nella lingua del telefono quando disponibile.

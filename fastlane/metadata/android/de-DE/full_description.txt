@@ -1,0 +1,15 @@
+Behalte den Überblick über die Filme und Serien, die du gesehen hast, bewerte sie mit bis zu fünf Sternen und merke dir, was du noch sehen willst.
+
+Kein Konto, keine Werbung, kein Tracking. Alles bleibt auf deinem Gerät.
+
+Funktionen:
+
+* Suche Filme, Serien und Personen in einem einzigen Feld
+* Bewerte mit einem Tippen — der Titel landet gleichzeitig unter „Gesehen“
+* Führe eine Liste „Später ansehen“; Titel wandern hinüber, sobald du sie bewertest
+* Detailseiten mit Inhaltsangabe, IMDb-Wertung, Besetzung, gesamtem Team und Trailer, der in der App läuft
+* Personenseiten mit vollständiger Filmografie
+* Füge eine eigene Notiz und das Datum hinzu
+* Deine Liste ist eine einfache CSV-Datei auf dem Gerät, die du exportieren und wieder importieren kannst
+
+Titel, Poster und Inhaltsangaben stammen von IMDb, in der Sprache deines Geräts, sofern vorhanden.

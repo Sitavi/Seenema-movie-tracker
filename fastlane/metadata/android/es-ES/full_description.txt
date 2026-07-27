@@ -1,0 +1,15 @@
+Lleva la cuenta de las películas y series que has visto, valóralas del uno al cinco y guarda una lista de lo que quieres ver.
+
+Sin cuenta, sin anuncios, sin rastreo. Todo se queda en tu teléfono.
+
+Características:
+
+* Busca películas, series y personas desde un solo campo
+* Valora con un toque, y el título pasa a tu lista de vistas al mismo tiempo
+* Mantén una lista «Ver luego»; los títulos pasan a «Vistas» en cuanto los valoras
+* Fichas con sinopsis, valoración de IMDb, reparto, equipo completo y el tráiler, que se reproduce en la aplicación
+* Fichas de personas con su filmografía completa
+* Añade una nota personal y la fecha en que la viste
+* Tu lista es un simple archivo CSV en el teléfono que puedes exportar e importar
+
+Títulos, carteles y sinopsis provienen de IMDb, en el idioma de tu teléfono cuando está disponible.

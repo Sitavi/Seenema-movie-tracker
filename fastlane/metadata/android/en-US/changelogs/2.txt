@@ -1,0 +1,1 @@
+Adds an About page, translations into eight more languages, and a smoother fast scroller.

@@ -1,0 +1,15 @@
+Track the films and series you have watched, rate them out of five, and keep a list of what to watch next.
+
+No account, no ads, no tracking. Everything stays on your phone.
+
+Features:
+
+* Search films, series and people from a single box
+* Rate anything in one tap, which files it under Seen at the same time
+* Keep a Watch later list, and titles move over once you rate them
+* Title pages with the synopsis, IMDb score, cast, full crew and the trailer, which plays in the app
+* People pages with a complete filmography
+* Add a personal note and the date you watched something
+* Your list is a plain CSV file on your phone that you can export and import back
+
+Titles, posters and synopses come from IMDb in your phone's language wherever they exist.

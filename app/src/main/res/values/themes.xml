@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Theme.MovieTracker" parent="android:Theme.Material.Light.NoActionBar" />
+
+    <!-- Logo splash while the app starts; Android 12+ shows its own, this
+         covers older versions the same way. -->
+    <style name="Theme.MovieTracker.Starting" parent="Theme.SplashScreen">
+        <item name="windowSplashScreenBackground">@android:color/white</item>
+        <item name="windowSplashScreenAnimatedIcon">@mipmap/ic_launcher</item>
+        <item name="postSplashScreenTheme">@style/Theme.MovieTracker</item>
+    </style>
+</resources>

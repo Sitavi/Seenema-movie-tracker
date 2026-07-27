@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Seenema：观影记录</string>
+    <string name="brand">Seenema</string>
+
+    <string name="search_hint">电影、剧集、人物…</string>
+    <string name="tab_seen">已看 (%1$d)</string>
+    <string name="tab_watchlist">稍后观看 (%1$d)</string>
+    <string name="menu">菜单</string>
+    <string name="share_csv">分享 CSV</string>
+    <string name="import_csv">导入 CSV</string>
+    <string name="imported_toast">已导入 %1$d 个条目</string>
+    <string name="import_failed">无法读取此文件</string>
+    <string name="sort_by">排序：%1$s</string>
+    <string name="sort_date">添加日期</string>
+    <string name="sort_rating">我的评分</string>
+    <string name="sort_year">年份</string>
+    <string name="sort_asc">升序</string>
+    <string name="sort_desc">降序</string>
+    <string name="empty_seen">搜索电影或剧集\n点按星星即可添加</string>
+    <string name="empty_watchlist">稍后观看的条目\n会显示在这里</string>
+    <string name="no_results">没有结果</string>
+    <string name="search_error">无法连接 IMDb</string>
+    <string name="retry">重试</string>
+
+    <string name="movie">电影</string>
+    <string name="series">剧集</string>
+    <string name="person">人物</string>
+
+    <string name="rate_caption_unrated">点按星星评分并标记为已看</string>
+    <string name="rate_caption_rated">已在“已看”列表 • 再次点按该星星可移除</string>
+    <string name="watchlist_add">添加到“稍后观看”</string>
+    <string name="watchlist_remove">在“稍后观看”中 • 点按可移除</string>
+    <string name="seen_on">观看于 %1$s</string>
+    <string name="edit">编辑</string>
+    <string name="edit_dialog_title">备注和日期</string>
+    <string name="note_label">备注</string>
+    <string name="date_label">观看日期（YYYY-MM-DD）</string>
+    <string name="save">保存</string>
+    <string name="cancel">取消</string>
+
+    <string name="undo">撤销</string>
+    <string name="undo_removed_seen">已从“已看”移除</string>
+    <string name="undo_removed_watchlist">已从“稍后观看”移除</string>
+    <string name="undo_moved_seen">已移到“已看”</string>
+    <string name="undo_moved_watchlist">已移到“稍后观看”</string>
+
+    <string name="trailer">预告片</string>
+    <string name="play_trailer">播放预告片</string>
+    <string name="cast">演员</string>
+    <string name="team">团队</string>
+    <string name="full_team">全部团队</string>
+    <string name="full_team_count">全部团队 (%1$d)</string>
+    <string name="other_category">其他</string>
+    <string name="load_error">加载失败 — 请检查网络连接</string>
+    <string name="filmography">作品 (%1$d)</string>
+
+    <string name="back">返回</string>
+    <string name="clear">清除</string>
+    <string name="rate_star">评 %1$d 星</string>
+    <string name="close">关闭</string>
+
+    <string name="about">关于</string>
+    <string name="about_version">版本 %1$s (%2$d)</string>
+    <string name="about_tagline">记录你看过的电影和剧集，为它们打分，并保存接下来想看的清单。</string>
+    <string name="about_star">在 GitHub 上加星</string>
+    <string name="about_star_note">免费且开源。加一颗星能帮助更多人发现它。</string>
+    <string name="about_source">源代码</string>
+    <string name="about_bug">报告问题</string>
+    <string name="about_bug_sub">在 GitHub 上提交 issue</string>
+    <string name="about_data">影片数据</string>
+    <string name="about_data_sub">片名、海报和简介来自 IMDb</string>
+    <string name="about_licenses">开源许可</string>
+    <string name="about_licenses_sub">构建 Seenema 的库</string>
+    <string name="about_footer">© Sitavi。基于 GNU GPL v3 或更高版本的自由软件。</string>
+    <string name="licenses_app">Seenema 本身是基于 GNU 通用公共许可证第 3 版或更高版本的自由软件。</string>
+    <string name="licenses_built_with">使用以下项目构建：</string>
+    <string name="licenses_list">• Jetpack Compose\n• Material 3\n• AndroidX 库\n• OkHttp\n• Coil</string>
+    <string name="licenses_data">影片数据来自 IMDb，其允许有限的个人非商业使用。</string>
+    <string name="link_failed">无法打开链接</string>
+</resources>

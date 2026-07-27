@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Seenema: Movie Tracker</string>
+    <string name="brand">Seenema</string>
+
+    <string name="search_hint">Movies, series, people…</string>
+    <string name="tab_seen">Seen (%1$d)</string>
+    <string name="tab_watchlist">Watch later (%1$d)</string>
+    <string name="menu">Menu</string>
+    <string name="share_csv">Share CSV</string>
+    <string name="import_csv">Import CSV</string>
+    <string name="imported_toast">%1$d titles imported</string>
+    <string name="import_failed">Couldn\'t read this file</string>
+    <string name="sort_by">Sort: %1$s</string>
+    <string name="sort_date">Date added</string>
+    <string name="sort_rating">My rating</string>
+    <string name="sort_year">Year</string>
+    <string name="sort_asc">Ascending</string>
+    <string name="sort_desc">Descending</string>
+    <string name="empty_seen">Search for a movie or series\nand tap a star to add it</string>
+    <string name="empty_watchlist">Titles to watch later\nwill appear here</string>
+    <string name="no_results">No results</string>
+    <string name="search_error">Couldn\'t reach IMDb</string>
+    <string name="retry">Retry</string>
+
+    <string name="movie">Movie</string>
+    <string name="series">Series</string>
+    <string name="person">Person</string>
+
+    <string name="rate_caption_unrated">Tap a star to rate and mark as seen</string>
+    <string name="rate_caption_rated">In your seen list • tap your star again to remove</string>
+    <string name="watchlist_add">Add to Watch later</string>
+    <string name="watchlist_remove">In Watch later • tap to remove</string>
+    <string name="seen_on">Seen on %1$s</string>
+    <string name="edit">Edit</string>
+    <string name="edit_dialog_title">Note and date</string>
+    <string name="note_label">Note</string>
+    <string name="date_label">Seen on (YYYY-MM-DD)</string>
+    <string name="save">Save</string>
+    <string name="cancel">Cancel</string>
+
+    <string name="undo">Undo</string>
+    <string name="undo_removed_seen">Removed from Seen</string>
+    <string name="undo_removed_watchlist">Removed from Watch later</string>
+    <string name="undo_moved_seen">Moved to Seen</string>
+    <string name="undo_moved_watchlist">Moved to Watch later</string>
+
+    <string name="trailer">Trailer</string>
+    <string name="play_trailer">Play trailer</string>
+    <string name="cast">Cast</string>
+    <string name="team">Team</string>
+    <string name="full_team">Full team</string>
+    <string name="full_team_count">Full team (%1$d)</string>
+    <string name="other_category">Other</string>
+    <string name="load_error">Couldn\'t load — check your connection</string>
+    <string name="filmography">Filmography (%1$d)</string>
+
+    <string name="back">Back</string>
+    <string name="clear">Clear</string>
+    <string name="rate_star">Rate %1$d</string>
+    <string name="close">Close</string>
+
+    <string name="about">About</string>
+    <string name="about_version">Version %1$s (%2$d)</string>
+    <string name="about_tagline">Track the films and series you have watched, rate them, and keep a list of what to watch next.</string>
+    <string name="about_star">Star on GitHub</string>
+    <string name="about_star_note">Free and open source. If it helps you, a star helps others find it.</string>
+    <string name="about_source">Source code</string>
+    <string name="about_bug">Report a bug</string>
+    <string name="about_bug_sub">Open an issue on GitHub</string>
+    <string name="about_data">Film data</string>
+    <string name="about_data_sub">Titles, posters and synopses come from IMDb</string>
+    <string name="about_licenses">Open-source licenses</string>
+    <string name="about_licenses_sub">The libraries that make Seenema</string>
+    <string name="about_footer">© Sitavi. Free software under the GNU GPL v3 or later.</string>
+    <string name="licenses_app">Seenema itself is free software under the GNU General Public License, version 3 or later.</string>
+    <string name="licenses_built_with">It is built with:</string>
+    <string name="licenses_list">• Jetpack Compose\n• Material 3\n• AndroidX libraries\n• OkHttp\n• Coil</string>
+    <string name="licenses_data">Film data comes from IMDb, which allows limited personal, non-commercial use.</string>
+    <string name="link_failed">Couldn\'t open the link</string>
+</resources>

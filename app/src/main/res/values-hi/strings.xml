@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Seenema: फ़िल्म ट्रैकर</string>
+    <string name="brand">Seenema</string>
+
+    <string name="search_hint">फ़िल्में, सीरीज़, लोग…</string>
+    <string name="tab_seen">देखी गईं (%1$d)</string>
+    <string name="tab_watchlist">बाद में देखें (%1$d)</string>
+    <string name="menu">मेन्यू</string>
+    <string name="share_csv">CSV साझा करें</string>
+    <string name="import_csv">CSV आयात करें</string>
+    <string name="imported_toast">%1$d शीर्षक आयात किए गए</string>
+    <string name="import_failed">यह फ़ाइल पढ़ी नहीं जा सकी</string>
+    <string name="sort_by">क्रम: %1$s</string>
+    <string name="sort_date">जोड़ने की तारीख़</string>
+    <string name="sort_rating">मेरी रेटिंग</string>
+    <string name="sort_year">साल</string>
+    <string name="sort_asc">आरोही</string>
+    <string name="sort_desc">अवरोही</string>
+    <string name="empty_seen">कोई फ़िल्म या सीरीज़ खोजें\nऔर जोड़ने के लिए तारे पर टैप करें</string>
+    <string name="empty_watchlist">बाद में देखने वाले शीर्षक\nयहाँ दिखाई देंगे</string>
+    <string name="no_results">कोई परिणाम नहीं</string>
+    <string name="search_error">IMDb से संपर्क नहीं हो सका</string>
+    <string name="retry">फिर कोशिश करें</string>
+
+    <string name="movie">फ़िल्म</string>
+    <string name="series">सीरीज़</string>
+    <string name="person">व्यक्ति</string>
+
+    <string name="rate_caption_unrated">रेटिंग देने और देखी गई में जोड़ने के लिए तारे पर टैप करें</string>
+    <string name="rate_caption_rated">आपकी देखी गई सूची में • हटाने के लिए उसी तारे पर फिर टैप करें</string>
+    <string name="watchlist_add">“बाद में देखें” में जोड़ें</string>
+    <string name="watchlist_remove">“बाद में देखें” में • हटाने के लिए टैप करें</string>
+    <string name="seen_on">%1$s को देखी</string>
+    <string name="edit">संपादित करें</string>
+    <string name="edit_dialog_title">नोट और तारीख़</string>
+    <string name="note_label">नोट</string>
+    <string name="date_label">देखने की तारीख़ (YYYY-MM-DD)</string>
+    <string name="save">सहेजें</string>
+    <string name="cancel">रद्द करें</string>
+
+    <string name="undo">पूर्ववत करें</string>
+    <string name="undo_removed_seen">“देखी गईं” से हटाया गया</string>
+    <string name="undo_removed_watchlist">“बाद में देखें” से हटाया गया</string>
+    <string name="undo_moved_seen">“देखी गईं” में ले जाया गया</string>
+    <string name="undo_moved_watchlist">“बाद में देखें” में ले जाया गया</string>
+
+    <string name="trailer">ट्रेलर</string>
+    <string name="play_trailer">ट्रेलर चलाएँ</string>
+    <string name="cast">कलाकार</string>
+    <string name="team">टीम</string>
+    <string name="full_team">पूरी टीम</string>
+    <string name="full_team_count">पूरी टीम (%1$d)</string>
+    <string name="other_category">अन्य</string>
+    <string name="load_error">लोड नहीं हो सका — अपना कनेक्शन जाँचें</string>
+    <string name="filmography">फ़िल्मोग्राफ़ी (%1$d)</string>
+
+    <string name="back">वापस</string>
+    <string name="clear">साफ़ करें</string>
+    <string name="rate_star">%1$d रेटिंग दें</string>
+    <string name="close">बंद करें</string>
+
+    <string name="about">ऐप के बारे में</string>
+    <string name="about_version">संस्करण %1$s (%2$d)</string>
+    <string name="about_tagline">आपने जो फ़िल्में और सीरीज़ देखी हैं उन्हें दर्ज करें, रेटिंग दें, और आगे क्या देखना है उसकी सूची रखें।</string>
+    <string name="about_star">GitHub पर स्टार दें</string>
+    <string name="about_star_note">मुफ़्त और ओपन सोर्स। एक स्टार दूसरों को इसे खोजने में मदद करता है।</string>
+    <string name="about_source">सोर्स कोड</string>
+    <string name="about_bug">बग की रिपोर्ट करें</string>
+    <string name="about_bug_sub">GitHub पर issue खोलें</string>
+    <string name="about_data">फ़िल्म डेटा</string>
+    <string name="about_data_sub">शीर्षक, पोस्टर और सारांश IMDb से आते हैं</string>
+    <string name="about_licenses">ओपन सोर्स लाइसेंस</string>
+    <string name="about_licenses_sub">वे लाइब्रेरी जिनसे Seenema बना है</string>
+    <string name="about_footer">© Sitavi. GNU GPL v3 या बाद के संस्करण के तहत मुक्त सॉफ़्टवेयर।</string>
+    <string name="licenses_app">Seenema स्वयं GNU जनरल पब्लिक लाइसेंस, संस्करण 3 या बाद के तहत मुक्त सॉफ़्टवेयर है।</string>
+    <string name="licenses_built_with">इससे बना है:</string>
+    <string name="licenses_list">• Jetpack Compose\n• Material 3\n• AndroidX लाइब्रेरी\n• OkHttp\n• Coil</string>
+    <string name="licenses_data">फ़िल्म डेटा IMDb से आता है, जो सीमित व्यक्तिगत, ग़ैर-व्यावसायिक उपयोग की अनुमति देता है।</string>
+    <string name="link_failed">लिंक नहीं खोला जा सका</string>
+</resources>

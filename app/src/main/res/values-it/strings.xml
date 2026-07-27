@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Seenema: Diario di film</string>
+    <string name="brand">Seenema</string>
+
+    <string name="search_hint">Film, serie, persone…</string>
+    <string name="tab_seen">Visti (%1$d)</string>
+    <string name="tab_watchlist">Da vedere (%1$d)</string>
+    <string name="menu">Menu</string>
+    <string name="share_csv">Condividi CSV</string>
+    <string name="import_csv">Importa CSV</string>
+    <string name="imported_toast">%1$d titoli importati</string>
+    <string name="import_failed">Impossibile leggere il file</string>
+    <string name="sort_by">Ordine: %1$s</string>
+    <string name="sort_date">Data di aggiunta</string>
+    <string name="sort_rating">Il mio voto</string>
+    <string name="sort_year">Anno</string>
+    <string name="sort_asc">Crescente</string>
+    <string name="sort_desc">Decrescente</string>
+    <string name="empty_seen">Cerca un film o una serie\ne tocca una stella per aggiungerlo</string>
+    <string name="empty_watchlist">I titoli da vedere\ncompariranno qui</string>
+    <string name="no_results">Nessun risultato</string>
+    <string name="search_error">IMDb non raggiungibile</string>
+    <string name="retry">Riprova</string>
+
+    <string name="movie">Film</string>
+    <string name="series">Serie</string>
+    <string name="person">Persona</string>
+
+    <string name="rate_caption_unrated">Tocca una stella per votare e segnare come visto</string>
+    <string name="rate_caption_rated">Nella tua lista • tocca di nuovo per rimuovere</string>
+    <string name="watchlist_add">Aggiungi a «Da vedere»</string>
+    <string name="watchlist_remove">In «Da vedere» • tocca per rimuovere</string>
+    <string name="seen_on">Visto il %1$s</string>
+    <string name="edit">Modifica</string>
+    <string name="edit_dialog_title">Nota e data</string>
+    <string name="note_label">Nota</string>
+    <string name="date_label">Visto il (AAAA-MM-GG)</string>
+    <string name="save">Salva</string>
+    <string name="cancel">Annulla</string>
+
+    <string name="undo">Annulla</string>
+    <string name="undo_removed_seen">Rimosso da «Visti»</string>
+    <string name="undo_removed_watchlist">Rimosso da «Da vedere»</string>
+    <string name="undo_moved_seen">Spostato in «Visti»</string>
+    <string name="undo_moved_watchlist">Spostato in «Da vedere»</string>
+
+    <string name="trailer">Trailer</string>
+    <string name="play_trailer">Riproduci trailer</string>
+    <string name="cast">Cast</string>
+    <string name="team">Troupe</string>
+    <string name="full_team">Troupe completa</string>
+    <string name="full_team_count">Troupe completa (%1$d)</string>
+    <string name="other_category">Altro</string>
+    <string name="load_error">Caricamento non riuscito — controlla la connessione</string>
+    <string name="filmography">Filmografia (%1$d)</string>
+
+    <string name="back">Indietro</string>
+    <string name="clear">Cancella</string>
+    <string name="rate_star">Vota %1$d</string>
+    <string name="close">Chiudi</string>
+
+    <string name="about">Informazioni</string>
+    <string name="about_version">Versione %1$s (%2$d)</string>
+    <string name="about_tagline">Tieni traccia dei film e delle serie che hai visto, votali e conserva una lista di cosa vedere.</string>
+    <string name="about_star">Metti una stella su GitHub</string>
+    <string name="about_star_note">Gratuita e open source. Una stella aiuta gli altri a trovarla.</string>
+    <string name="about_source">Codice sorgente</string>
+    <string name="about_bug">Segnala un problema</string>
+    <string name="about_bug_sub">Apri una segnalazione su GitHub</string>
+    <string name="about_data">Dati dei film</string>
+    <string name="about_data_sub">Titoli, locandine e trame provengono da IMDb</string>
+    <string name="about_licenses">Licenze open source</string>
+    <string name="about_licenses_sub">Le librerie che compongono Seenema</string>
+    <string name="about_footer">© Sitavi. Software libero sotto GNU GPL v3 o successiva.</string>
+    <string name="licenses_app">Seenema è software libero sotto la GNU General Public License, versione 3 o successiva.</string>
+    <string name="licenses_built_with">Realizzata con:</string>
+    <string name="licenses_list">• Jetpack Compose\n• Material 3\n• Librerie AndroidX\n• OkHttp\n• Coil</string>
+    <string name="licenses_data">I dati provengono da IMDb, che consente un uso personale e non commerciale limitato.</string>
+    <string name="link_failed">Impossibile aprire il collegamento</string>
+</resources>
