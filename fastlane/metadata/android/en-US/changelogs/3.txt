@@ -1,0 +1,1 @@
+Fixes search and film pages, which had stopped loading.

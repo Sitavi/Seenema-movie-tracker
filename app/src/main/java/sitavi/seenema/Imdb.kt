@@ -216,9 +216,12 @@ object Imdb {
         // Titles and plots come back in the device language when IMDb has a
         // translation; anything unsupported silently falls back to English.
         val locale = Locale.getDefault()
+        // IMDb's endpoint only answers requests that carry these site headers.
         val request = Request.Builder()
             .url("https://api.graphql.imdb.com/")
             .post(body)
+            .header("Origin", "https://www.imdb.com")
+            .header("Referer", "https://www.imdb.com/")
             .header("x-imdb-user-language", locale.toLanguageTag())
             .apply { if (locale.country.isNotBlank()) header("x-imdb-user-country", locale.country) }
             .build()
