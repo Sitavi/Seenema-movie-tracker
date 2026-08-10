@@ -1,4 +1,4 @@
-# 🎬 Seenema : Movie Tracker
+# 🎬 Seenema: Movie Tracker
 
 Track the films and series you have watched, rate them, and keep a list of what to watch next.
 
