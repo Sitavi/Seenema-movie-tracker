@@ -9,7 +9,9 @@
     <string name="menu">メニュー</string>
     <string name="share_csv">CSVを共有</string>
     <string name="import_csv">CSVをインポート</string>
-    <string name="imported_toast">%1$d件をインポートしました</string>
+    <plurals name="imported_toast">
+        <item quantity="other">%1$d件をインポートしました</item>
+    </plurals>
     <string name="import_failed">このファイルを読み込めませんでした</string>
     <string name="sort_by">並び替え: %1$s</string>
     <string name="sort_date">追加日</string>

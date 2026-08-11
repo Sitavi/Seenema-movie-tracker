@@ -95,13 +95,14 @@ private const val IMDB_URL = "https://www.imdb.com"
 @Composable
 fun AboutScreen(nav: NavController) {
     val context = LocalContext.current
+    val linkFailed = stringResource(R.string.link_failed)
     var showLicenses by remember { mutableStateOf(false) }
 
     fun openUrl(url: String) {
         runCatching {
             context.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(url)))
         }.onFailure {
-            Toast.makeText(context, context.getString(R.string.link_failed), Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, linkFailed, Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -111,7 +112,7 @@ fun AboutScreen(nav: NavController) {
                 title = { Text(stringResource(R.string.about)) },
                 navigationIcon = {
                     IconButton(onClick = { nav.popBackStack() }) {
-                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
+                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = stringResource(R.string.back))
                     }
                 }
             )

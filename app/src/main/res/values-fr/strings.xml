@@ -9,7 +9,11 @@
     <string name="menu">Menu</string>
     <string name="share_csv">Partager le CSV</string>
     <string name="import_csv">Importer un CSV</string>
-    <string name="imported_toast">%1$d titres importés</string>
+    <plurals name="imported_toast">
+        <item quantity="one">%1$d titre importé</item>
+        <item quantity="many">%1$d titres importés</item>
+        <item quantity="other">%1$d titres importés</item>
+    </plurals>
     <string name="import_failed">Impossible de lire ce fichier</string>
     <string name="sort_by">Tri : %1$s</string>
     <string name="sort_date">Ajout</string>

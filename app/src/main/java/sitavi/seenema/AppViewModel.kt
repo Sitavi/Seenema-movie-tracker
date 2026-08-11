@@ -281,7 +281,11 @@ class AppViewModel(app: Application) : AndroidViewModel(app) {
                     seen = (current + fresh).sortedByDescending { it.addedAt }
                     persist()
                     Toast.makeText(
-                        app, app.getString(R.string.imported_toast, fresh.size), Toast.LENGTH_SHORT
+                        app,
+                        app.resources.getQuantityString(
+                            R.plurals.imported_toast, fresh.size, fresh.size
+                        ),
+                        Toast.LENGTH_SHORT,
                     ).show()
                 }
             }

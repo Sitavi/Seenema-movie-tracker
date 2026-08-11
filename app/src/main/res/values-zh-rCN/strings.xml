@@ -9,7 +9,9 @@
     <string name="menu">菜单</string>
     <string name="share_csv">分享 CSV</string>
     <string name="import_csv">导入 CSV</string>
-    <string name="imported_toast">已导入 %1$d 个条目</string>
+    <plurals name="imported_toast">
+        <item quantity="other">已导入 %1$d 个条目</item>
+    </plurals>
     <string name="import_failed">无法读取此文件</string>
     <string name="sort_by">排序：%1$s</string>
     <string name="sort_date">添加日期</string>

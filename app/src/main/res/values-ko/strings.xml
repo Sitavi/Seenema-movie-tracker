@@ -9,7 +9,9 @@
     <string name="menu">메뉴</string>
     <string name="share_csv">CSV 공유</string>
     <string name="import_csv">CSV 가져오기</string>
-    <string name="imported_toast">%1$d개 항목을 가져왔습니다</string>
+    <plurals name="imported_toast">
+        <item quantity="other">%1$d개 항목을 가져왔습니다</item>
+    </plurals>
     <string name="import_failed">파일을 읽을 수 없습니다</string>
     <string name="sort_by">정렬: %1$s</string>
     <string name="sort_date">추가한 날짜</string>

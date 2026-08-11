@@ -110,7 +110,7 @@ fun TitleScreen(vm: AppViewModel, nav: NavController, type: String, id: String) 
                 title = {},
                 navigationIcon = {
                     IconButton(onClick = { nav.popBackStack() }) {
-                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
+                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = stringResource(R.string.back))
                     }
                 }
             )
