@@ -4,12 +4,12 @@ Sem conta, sem anúncios, sem rastreamento. Tudo fica no seu telefone.
 
 Recursos:
 
-* Busque filmes, séries e pessoas em um único campo
-* Avalie com um toque, o que já adiciona o título aos vistos
-* Mantenha uma lista «Ver depois»; os títulos passam para «Vistos» assim que você os avalia
-* Páginas com sinopse, nota do IMDb, elenco, equipe completa e o trailer, que toca no próprio app
-* Páginas de pessoas com a filmografia completa
-* Adicione uma nota pessoal e a data em que assistiu
-* Sua lista é um arquivo CSV simples no telefone, que você pode exportar e importar
+🔍 <b>Busque</b> filmes, séries e pessoas em um único campo
+⭐ <b>Avalie com um toque</b>, o que já adiciona o título aos vistos
+🕐 <b>Ver depois</b> guarda o que você quiser para mais tarde; os títulos passam para «Vistos» assim que você os avalia
+🎞️ <b>Páginas de títulos</b> com sinopse, nota do IMDb, elenco, equipe completa e o trailer, que toca no próprio app
+👤 <b>Páginas de pessoas</b> com a filmografia completa
+📝 <b>Notas</b> para adicionar um comentário pessoal e a data em que assistiu
+📄 <b>Backup</b>: sua lista é um arquivo CSV simples no telefone, que você pode exportar e importar
 
 Títulos, pôsteres e sinopses vêm do IMDb, no idioma do seu telefone quando disponível.

@@ -1,8 +1,23 @@
-# 🎬 Seenema: Movie Tracker
+<p align="center">
+  <img src="fastlane/metadata/android/en-US/images/icon.png" alt="Seenema" width="112">
+</p>
 
-Track the films and series you have watched, rate them, and keep a list of what to watch next.
+<h1 align="center">Seenema: Movie Tracker</h1>
 
-No account, no ads, no tracking, locally saved.
+<p align="center">
+  Track the films and series you have watched, rate them, and keep a list of what to watch next.<br>
+  No account, no ads, no tracking, locally saved.
+</p>
+
+<p align="center">
+  <a href="https://f-droid.org/packages/sitavi.seenema/">
+    <img src="https://fdroid.gitlab.io/artwork/badge/get-it-on.png" alt="Get it on F-Droid" height="80">
+  </a>
+  <br>
+  <a href="https://f-droid.org/packages/sitavi.seenema/">
+    <img src="https://img.shields.io/f-droid/v/sitavi.seenema?logo=fdroid" alt="Version on F-Droid">
+  </a>
+</p>
 
 <p align="center">
   <img src="docs/screenshots/hero.png" alt="Seenema: the seen list, search results, a film page, and a director's filmography" width="100%">
@@ -16,7 +31,7 @@ No account, no ads, no tracking, locally saved.
 - 🎞️ **Title pages** with the synopsis, IMDb score, cast, complete crew, and trailer, which plays in the app.
 - 👤 **People pages** with their full filmography.
 - 📝 **Notes** field to add a personal note and the date you watched something.
-- 📄 **Plain CSV** for easy backup, so your list is a file on your phone, not an account somewhere.
+- 📄 **Backup** is easy with a plain CSV file on your phone, not an account somewhere.
 
 Everything sits in `Android/media/sitavi.seenema/seenema.csv`. "Share CSV" in the top-right menu exports it and "Import CSV" brings it back, which is how you move to a new phone or restore a backup.
 

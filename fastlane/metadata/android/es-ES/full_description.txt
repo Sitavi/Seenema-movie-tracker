@@ -4,12 +4,12 @@ Sin cuenta, sin anuncios, sin rastreo. Todo se queda en tu teléfono.
 
 Características:
 
-* Busca películas, series y personas desde un solo campo
-* Valora con un toque, y el título pasa a tu lista de vistas al mismo tiempo
-* Mantén una lista «Ver luego»; los títulos pasan a «Vistas» en cuanto los valoras
-* Fichas con sinopsis, valoración de IMDb, reparto, equipo completo y el tráiler, que se reproduce en la aplicación
-* Fichas de personas con su filmografía completa
-* Añade una nota personal y la fecha en que la viste
-* Tu lista es un simple archivo CSV en el teléfono que puedes exportar e importar
+🔍 <b>Busca</b> películas, series y personas desde un solo campo
+⭐ <b>Valora con un toque</b> y el título pasa a tu lista de vistas al mismo tiempo
+🕐 <b>Ver luego</b> guarda lo que quieras para más tarde; los títulos pasan a «Vistas» en cuanto los valoras
+🎞️ <b>Fichas de títulos</b> con sinopsis, valoración de IMDb, reparto, equipo completo y el tráiler, que se reproduce en la aplicación
+👤 <b>Fichas de personas</b> con su filmografía completa
+📝 <b>Notas</b> para añadir un comentario personal y la fecha en que la viste
+📄 <b>Copia de seguridad</b>: tu lista es un simple archivo CSV en el teléfono que puedes exportar e importar
 
 Títulos, carteles y sinopsis provienen de IMDb, en el idioma de tu teléfono cuando está disponible.

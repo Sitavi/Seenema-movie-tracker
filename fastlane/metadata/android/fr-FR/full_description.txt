@@ -4,12 +4,12 @@ Sans compte, sans publicité, sans pistage. Tout reste sur votre téléphone.
 
 Fonctionnalités :
 
-* Cherchez films, séries et personnes depuis un seul champ
-* Notez en un seul geste, ce qui ajoute le titre à vos films vus
-* Gardez une liste « À voir », les titres y passent dans « Vus » dès que vous les notez
-* Fiches avec le synopsis, la note IMDb, la distribution, l'équipe complète et la bande-annonce, lue dans l'application
-* Fiches de personnes avec la filmographie complète
-* Ajoutez une note personnelle et la date à laquelle vous l'avez vu
-* Votre liste est un simple fichier CSV sur votre téléphone, exportable et réimportable
+🔍 <b>Cherchez</b> films, séries et personnes depuis un seul champ
+⭐ <b>Notez en un seul geste</b> : le titre rejoint aussitôt vos films vus
+🕐 <b>« À voir »</b> garde de côté ce qui vous tente ; les titres passent dans « Vus » dès que vous les notez
+🎞️ <b>Fiches de titres</b> avec le synopsis, la note IMDb, la distribution, l'équipe complète et la bande-annonce, lue dans l'application
+👤 <b>Fiches de personnes</b> avec la filmographie complète
+📝 <b>Notes</b> pour ajouter un commentaire personnel et la date à laquelle vous l'avez vu
+📄 <b>Sauvegarde</b> : votre liste est un simple fichier CSV sur votre téléphone, exportable et réimportable
 
 Titres, affiches et synopsis proviennent d'IMDb, dans la langue de votre téléphone quand elle est disponible.

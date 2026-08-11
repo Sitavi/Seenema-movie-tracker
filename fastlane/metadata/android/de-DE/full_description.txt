@@ -4,12 +4,12 @@ Kein Konto, keine Werbung, kein Tracking. Alles bleibt auf deinem Gerät.
 
 Funktionen:
 
-* Suche Filme, Serien und Personen in einem einzigen Feld
-* Bewerte mit einem Tippen — der Titel landet gleichzeitig unter „Gesehen“
-* Führe eine Liste „Später ansehen“; Titel wandern hinüber, sobald du sie bewertest
-* Detailseiten mit Inhaltsangabe, IMDb-Wertung, Besetzung, gesamtem Team und Trailer, der in der App läuft
-* Personenseiten mit vollständiger Filmografie
-* Füge eine eigene Notiz und das Datum hinzu
-* Deine Liste ist eine einfache CSV-Datei auf dem Gerät, die du exportieren und wieder importieren kannst
+🔍 <b>Suche</b> Filme, Serien und Personen in einem einzigen Feld
+⭐ <b>Bewerte mit einem Tippen</b> — der Titel landet gleichzeitig unter „Gesehen“
+🕐 <b>„Später ansehen“</b> hält fest, was noch aussteht; Titel wandern hinüber, sobald du sie bewertest
+🎞️ <b>Detailseiten</b> mit Inhaltsangabe, IMDb-Wertung, Besetzung, gesamtem Team und Trailer, der in der App läuft
+👤 <b>Personenseiten</b> mit vollständiger Filmografie
+📝 <b>Notizen</b> für eine eigene Anmerkung und das Datum, an dem du etwas gesehen hast
+📄 <b>Backup</b>: Deine Liste ist eine einfache CSV-Datei auf dem Gerät, die du exportieren und wieder importieren kannst
 
 Titel, Poster und Inhaltsangaben stammen von IMDb, in der Sprache deines Geräts, sofern vorhanden.

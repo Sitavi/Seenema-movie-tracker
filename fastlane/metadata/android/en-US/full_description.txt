@@ -4,12 +4,12 @@ No account, no ads, no tracking. Everything stays on your phone.
 
 Features:
 
-* Search films, series and people from a single box
-* Rate anything in one tap, which files it under Seen at the same time
-* Keep a Watch later list, and titles move over once you rate them
-* Title pages with the synopsis, IMDb score, cast, full crew and the trailer, which plays in the app
-* People pages with a complete filmography
-* Add a personal note and the date you watched something
-* Your list is a plain CSV file on your phone that you can export and import back
+🔍 <b>Search</b> films, series and people.
+⭐ <b>Rate in one tap</b> a film or a series to add it to your seen list.
+🕐 <b>Watch later</b> saves anything for later, and it moves over to your seen list once you rate it.
+🎞️ <b>Title pages</b> with the synopsis, IMDb score, cast, complete crew, and trailer, which plays in the app.
+👤 <b>People pages</b> with their full filmography.
+📝 <b>Notes</b> field to add a personal note and the date you watched something.
+📄 <b>Backup</b> is easy with a plain CSV file on your phone, not an account somewhere.
 
 Titles, posters and synopses come from IMDb in your phone's language wherever they exist.

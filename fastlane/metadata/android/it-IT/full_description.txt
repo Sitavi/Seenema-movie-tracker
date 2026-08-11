@@ -4,12 +4,12 @@ Nessun account, nessuna pubblicità, nessun tracciamento. Tutto resta sul telefo
 
 Funzioni:
 
-* Cerca film, serie e persone da un unico campo
-* Vota con un tocco: il titolo finisce subito tra quelli visti
-* Tieni una lista «Da vedere»; i titoli passano tra i «Visti» appena li voti
-* Schede con trama, voto IMDb, cast, troupe completa e trailer, riprodotto nell'app
-* Schede delle persone con la filmografia completa
-* Aggiungi una nota personale e la data in cui l'hai visto
-* La tua lista è un semplice file CSV sul telefono, che puoi esportare e reimportare
+🔍 <b>Cerca</b> film, serie e persone da un unico campo
+⭐ <b>Vota con un tocco</b>: il titolo finisce subito tra quelli visti
+🕐 <b>Da vedere</b> tiene da parte quello che vuoi vedere; i titoli passano tra i «Visti» appena li voti
+🎞️ <b>Schede dei titoli</b> con trama, voto IMDb, cast, troupe completa e trailer, riprodotto nell'app
+👤 <b>Schede delle persone</b> con la filmografia completa
+📝 <b>Note</b> per aggiungere un commento personale e la data in cui l'hai visto
+📄 <b>Backup</b>: la tua lista è un semplice file CSV sul telefono, che puoi esportare e reimportare
 
 Titoli, locandine e trame provengono da IMDb, nella lingua del telefono quando disponibile.
