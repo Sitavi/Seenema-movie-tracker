@@ -1,7 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.INTERNET" />
+
+    <!-- ExoPlayer declares this, but trailers play with the screen on and the
+         player never sets a wake mode, so it would only be dead weight. -->
+    <uses-permission android:name="android.permission.WAKE_LOCK" tools:node="remove" />
 
     <application
         android:label="@string/app_name"
