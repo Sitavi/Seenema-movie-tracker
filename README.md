@@ -13,10 +13,6 @@
   <a href="https://f-droid.org/packages/sitavi.seenema/">
     <img src="https://fdroid.gitlab.io/artwork/badge/get-it-on.png" alt="Get it on F-Droid" height="80">
   </a>
-  <br>
-  <a href="https://f-droid.org/packages/sitavi.seenema/">
-    <img src="https://img.shields.io/f-droid/v/sitavi.seenema?logo=fdroid" alt="Version on F-Droid">
-  </a>
 </p>
 
 <p align="center">
