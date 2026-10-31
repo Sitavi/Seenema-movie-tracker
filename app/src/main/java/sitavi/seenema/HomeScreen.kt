@@ -89,8 +89,8 @@ fun HomeScreen(vm: AppViewModel, nav: NavController) {
         if (uri != null) vm.importCsv(uri)
     }
 
-    val seenItems = vm.items(Status.SEEN)
-    val watchItems = vm.items(Status.WATCHLIST)
+    val seenItems = remember(vm.seen) { vm.items(Status.SEEN) }
+    val watchItems = remember(vm.seen) { vm.items(Status.WATCHLIST) }
     Scaffold(
         snackbarHost = { SnackbarHost(vm.snackbarHostState) },
         bottomBar = {
@@ -214,7 +214,16 @@ fun HomeScreen(vm: AppViewModel, nav: NavController) {
                 }
             }
 
-            val list = vm.sortedItems(if (tab == 0) Status.SEEN else Status.WATCHLIST)
+            val tabStatus = if (tab == 0) Status.SEEN else Status.WATCHLIST
+            val list = remember(vm.seen, tabStatus, vm.sortMode, vm.sortAsc) {
+                vm.sortedItems(tabStatus)
+            }
+            // the date of every card in one pass; each one scans the library
+            val dates = remember(list) {
+                list.associate {
+                    "${it.mediaType}-${it.id}" to vm.cardDate(it.id, it.mediaType, tabStatus).take(10)
+                }
+            }
             if (list.isEmpty()) {
                 Centered {
                     Text(
@@ -228,19 +237,34 @@ fun HomeScreen(vm: AppViewModel, nav: NavController) {
                 Box(Modifier.fillMaxSize()) {
                 LazyColumn(state = listState, contentPadding = PaddingValues(bottom = 24.dp)) {
                     items(list, key = { "${it.mediaType}-${it.id}" }) { item ->
+                        var open by rememberSaveable("${item.mediaType}-${item.id}") {
+                            mutableStateOf(false)
+                        }
                         MediaCard(
                             title = item.title,
                             subtitle = listOf(
                                 item.year,
-                                stringResource(if (item.mediaType == "tv") R.string.series else R.string.movie)
+                                stringResource(mediaLabel(item.mediaType))
                             ).filter { it.isNotBlank() }.joinToString(" • "),
-                            date = item.addedAt.take(10),
+                            // for a series, when its newest episode in this tab was marked
+                            date = dates["${item.mediaType}-${item.id}"].orEmpty(),
                             posterUrl = item.posterUrl.ifBlank { null },
                             onClick = { nav.navigate("title/${item.mediaType}/${item.id}") },
-                            seen = item.rating > 0,
+                            // A series can be listed here only because one of its
+                            // episodes is. The stars and the clock still show the
+                            // series' own state, empty when it is in neither list.
+                            seen = item.rating > 0 || item.status != tabStatus,
                             watchLater = item.status == Status.WATCHLIST,
                             onWatchLater = {
                                 vm.toggleWatchlist(item.id, item.mediaType, item.title, item.year, item.posterUrl)
+                            },
+                            expanded = if (item.mediaType == "tv") open else null,
+                            onToggleExpand = { open = !open },
+                            expandedContent = {
+                                SeasonEpisodes(
+                                    vm, nav,
+                                    SeriesRef(item.id, item.title, item.year, item.posterUrl)
+                                )
                             },
                         ) {
                             StarRating(item.rating) {
@@ -254,7 +278,7 @@ fun HomeScreen(vm: AppViewModel, nav: NavController) {
                         when (vm.sortMode) {
                             SortMode.RATING -> "★ ${item.rating}"
                             SortMode.YEAR -> item.year.ifBlank { "—" }
-                            else -> item.addedAt.take(10)
+                            else -> dates["${item.mediaType}-${item.id}"].orEmpty()
                         }
                     }
                 }
@@ -262,6 +286,13 @@ fun HomeScreen(vm: AppViewModel, nav: NavController) {
             }
         }
     }
+}
+
+/** What a card calls the kind of title it shows. */
+private fun mediaLabel(mediaType: String): Int = when (mediaType) {
+    "tv" -> R.string.series
+    EPISODE -> R.string.episode
+    else -> R.string.movie
 }
 
 private fun sortLabel(mode: String): Int = when (mode) {
@@ -284,17 +315,24 @@ private fun SearchResults(vm: AppViewModel, nav: NavController) {
                 )
             } else {
                 val rating = vm.ratingOf(r.id, r.mediaType)
+                var open by rememberSaveable(r.id) { mutableStateOf(false) }
                 MediaCard(
                     title = r.l,
                     subtitle = listOf(
                         r.year,
-                        stringResource(if (r.mediaType == "tv") R.string.series else R.string.movie)
+                        stringResource(mediaLabel(r.mediaType))
                     ).filter { it.isNotBlank() }.joinToString(" • "),
                     posterUrl = r.i?.imageUrl,
+                    date = vm.cardDate(r.id, r.mediaType).take(10),
                     onClick = { nav.navigate("title/${r.mediaType}/${r.id}") },
                     seen = rating > 0,
                     watchLater = vm.statusOf(r.id, r.mediaType) == Status.WATCHLIST,
                     onWatchLater = { vm.toggleWatchlist(r.id, r.mediaType, r.l, r.year, r.i?.imageUrl) },
+                    expanded = if (r.isSeries) open else null,
+                    onToggleExpand = { open = !open },
+                    expandedContent = {
+                        SeasonEpisodes(vm, nav, SeriesRef(r.id, r.l, r.year, r.i?.imageUrl))
+                    },
                 ) {
                     StarRating(rating) {
                         vm.rate(r.id, r.mediaType, r.l, r.year, r.i?.imageUrl, it)

@@ -82,4 +82,11 @@
     <string name="licenses_list">• Jetpack Compose\n• Material 3\n• Bibliothèques AndroidX\n• OkHttp\n• Coil</string>
     <string name="licenses_data">Les données des films viennent d\'IMDb, qui autorise un usage personnel et non commercial limité.</string>
     <string name="link_failed">Impossible d\'ouvrir le lien</string>
+    <string name="expand">Afficher les épisodes</string>
+    <string name="collapse">Masquer les épisodes</string>
+    <string name="seasons">Saisons</string>
+    <string name="episode">Épisode</string>
+    <string name="season_episode">Saison %1$d, épisode %2$d</string>
+    <string name="season_short">S%1$d</string>
+    <string name="episode_short">E%1$d</string>
 </resources>

@@ -97,18 +97,62 @@ class AppViewModel(app: Application) : AndroidViewModel(app) {
         prefs.edit().putString("sort", sortMode).putBoolean("sortAsc", sortAsc).apply()
     }
 
-    fun items(status: String) = seen.filter { it.status == status }
+    /** Episode rows of a series, optionally only those in one list. */
+    fun episodesOf(seriesId: String, status: String? = null): List<SeenItem> =
+        seen.filter {
+            it.seriesId == seriesId && seriesId.isNotBlank() &&
+                (status == null || it.status == status)
+        }
+
+    /**
+     * The date a card shows. A series answers with the most recent date among
+     * its own row and its tracked episodes, so the card says when the series
+     * was last touched rather than when it was first added. On a library tab
+     * only that tab's list counts; a search result counts everything.
+     */
+    fun cardDate(id: String, type: String, status: String? = null): String {
+        val own = itemOf(id, type)
+            ?.takeIf { status == null || it.status == status }
+            ?.addedAt
+        if (type != "tv") return own.orEmpty()
+        val episode = episodesOf(id, status).maxOfOrNull { it.addedAt }
+        return listOfNotNull(own, episode).maxOrNull().orEmpty()
+    }
+
+    /**
+     * What one tab lists: titles in it outright, plus the series holding an
+     * episode in it. A series with episodes seen and others still to watch is
+     * therefore in both tabs, each showing its own date.
+     */
+    fun items(status: String): List<SeenItem> {
+        val own = seen.filter { it.partOf.isBlank() }
+        val direct = own.filter { it.status == status }
+        val episodes = seen.filter { it.partOf.isNotBlank() && it.status == status }
+        val viaEpisodes = episodes
+            .map { it.seriesId }
+            .distinct()
+            .filter { id -> id.isNotBlank() && direct.none { it.id == id } }
+            .mapNotNull { id -> own.firstOrNull { it.id == id && it.mediaType == "tv" } }
+        // an episode with no series row behind it, from a hand-edited or
+        // partial file, is listed on its own rather than kept out of sight
+        val loose = episodes.filter { ep ->
+            ep.seriesId.isBlank() || own.none { it.id == ep.seriesId && it.mediaType == "tv" }
+        }
+        return direct + viaEpisodes + loose
+    }
 
     fun sortedItems(status: String): List<SeenItem> {
         val list = items(status)
+        // the date the card shows is the date it sorts by
+        val dateOf = { item: SeenItem -> cardDate(item.id, item.mediaType, status) }
         val sorted = when (sortMode) {
             SortMode.RATING -> list.sortedWith(
-                compareByDescending<SeenItem> { it.rating }.thenByDescending { it.addedAt }
+                compareByDescending<SeenItem> { it.rating }.thenByDescending(dateOf)
             )
             SortMode.YEAR -> list.sortedWith(
-                compareByDescending<SeenItem> { it.year }.thenByDescending { it.addedAt }
+                compareByDescending<SeenItem> { it.year }.thenByDescending(dateOf)
             )
-            else -> list.sortedByDescending { it.addedAt }
+            else -> list.sortedByDescending(dateOf)
         }
         return if (sortAsc) sorted.reversed() else sorted
     }
@@ -157,6 +201,73 @@ class AppViewModel(app: Application) : AndroidViewModel(app) {
         searching = false
     }
 
+    // Season and episode structure per series, kept for the life of the app so
+    // collapsing and reopening a card costs nothing.
+    var episodes by mutableStateOf(mapOf<String, SeriesEpisodes>())
+        private set
+    var episodeFailures by mutableStateOf(setOf<String>())
+        private set
+    private val loadingEpisodes = mutableSetOf<String>()
+
+    /** Key of one load: the whole series, or one season of it. */
+    fun episodeKey(seriesId: String, season: Int? = null): String =
+        if (season == null) seriesId else "$seriesId:$season"
+
+    fun loadingEpisodes(seriesId: String, season: Int? = null): Boolean =
+        episodeKey(seriesId, season) in loadingEpisodes
+
+    /**
+     * Loads the episodes of a series, or of one of its seasons. The first call
+     * takes the whole run in one request; only a series too long for that comes
+     * back incomplete, and then each season is fetched as it is opened.
+     */
+    fun loadEpisodes(seriesId: String, season: Int? = null, force: Boolean = false) {
+        if (seriesId.isBlank()) return
+        val key = episodeKey(seriesId, season)
+        // a second request for the same thing would only duplicate the work,
+        // force or not, and the one in flight already clears the failure
+        if (key in loadingEpisodes) return
+        if (!force && has(seriesId, season)) return
+        loadingEpisodes += key
+        episodeFailures = episodeFailures - key
+        viewModelScope.launch {
+            try {
+                val page = Imdb.episodes(seriesId, season)
+                if (page.episodes.isEmpty() && page.seasons.isEmpty()) {
+                    // an empty answer is as likely a hiccup as an empty series,
+                    // and caching it would take the retry away for good
+                    episodeFailures = episodeFailures + key
+                } else {
+                    episodes = episodes + (seriesId to merge(episodes[seriesId], page, season))
+                    episodeFailures = episodeFailures - key
+                }
+            } catch (e: CancellationException) {
+                throw e
+            } catch (e: Exception) {
+                episodeFailures = episodeFailures + key
+            } finally {
+                loadingEpisodes -= key
+            }
+        }
+    }
+
+    private fun has(seriesId: String, season: Int?): Boolean {
+        val known = episodes[seriesId] ?: return false
+        return season == null || known.complete || season in known.loadedSeasons
+    }
+
+    private fun merge(known: SeriesEpisodes?, page: EpisodePage, season: Int?): SeriesEpisodes {
+        val old = known ?: SeriesEpisodes()
+        val kept = old.episodes.filter { e -> page.episodes.none { it.id == e.id } }
+        val whole = season == null && !page.truncated
+        return SeriesEpisodes(
+            seasons = page.seasons.ifEmpty { old.seasons },
+            episodes = (kept + page.episodes).sortedWith(compareBy({ it.season }, { it.number })),
+            loadedSeasons = old.loadedSeasons + page.episodes.map { it.season } + listOfNotNull(season),
+            complete = whole || old.complete,
+        )
+    }
+
     private fun key(id: String, type: String) = "$type-$id"
 
     fun itemOf(id: String, type: String): SeenItem? =
@@ -166,9 +277,16 @@ class AppViewModel(app: Application) : AndroidViewModel(app) {
 
     fun statusOf(id: String, type: String): String? = itemOf(id, type)?.status
 
-    fun rate(id: String, type: String, title: String, year: String, posterUrl: String?, rating: Int) {
+    fun rate(
+        id: String, type: String, title: String, year: String, posterUrl: String?, rating: Int,
+        partOf: String = "", series: SeriesRef? = null,
+    ) {
         val existing = itemOf(id, type)
         val before = seen
+        // an older banner still on screen would restore a list from before
+        // this change, so it goes as soon as anything else happens
+        snackbarHostState.currentSnackbarData?.dismiss()
+        seen = withSeries(seen, series)
         seen = when {
             existing == null -> {
                 val old = removed[key(id, type)]
@@ -177,15 +295,32 @@ class AppViewModel(app: Application) : AndroidViewModel(app) {
                         id, type, title, year, posterUrl.orEmpty(), Status.SEEN, rating,
                         note = old?.note ?: "",
                         addedAt = old?.addedAt ?: now(),
+                        partOf = partOf,
                     )
                 ) + seen
             }
             existing.status == Status.SEEN && existing.rating == rating -> {
                 removed[key(id, type)] = existing
-                seen - existing
+                untrack(seen, existing)
             }
-            else -> seen.map {
-                if (it.id == id && it.mediaType == type) it.copy(rating = rating, status = Status.SEEN) else it
+            else -> {
+                // Coming in from Watch later, the stored date stops meaning "added"
+                // and starts meaning "watched", so it moves to today. A title that
+                // was already seen keeps its date: re-rating is not re-watching.
+                val watchedAt = when (existing.status) {
+                    Status.SEEN -> existing.addedAt
+                    else -> removed[key(id, type)]?.addedAt ?: now()
+                }
+                seen.map {
+                    if (it.id == id && it.mediaType == type)
+                        it.copy(
+                            rating = rating,
+                            status = Status.SEEN,
+                            addedAt = watchedAt,
+                            partOf = partOf.ifBlank { it.partOf },
+                        )
+                    else it
+                }
             }
         }
         when {
@@ -197,26 +332,71 @@ class AppViewModel(app: Application) : AndroidViewModel(app) {
         persist()
     }
 
-    fun toggleWatchlist(id: String, type: String, title: String, year: String, posterUrl: String?) {
+    fun toggleWatchlist(
+        id: String, type: String, title: String, year: String, posterUrl: String?,
+        partOf: String = "", series: SeriesRef? = null,
+    ) {
         val existing = itemOf(id, type)
         val before = seen
+        snackbarHostState.currentSnackbarData?.dismiss()
+        seen = withSeries(seen, series)
         seen = when {
+            // a series kept only for its episodes is in no list, so the clock
+            // adds it to Watch later rather than moving it out of Seen
             existing == null -> listOf(
-                SeenItem(id, type, title, year, posterUrl.orEmpty(), Status.WATCHLIST, 0, "", now())
+                SeenItem(
+                    id, type, title, year, posterUrl.orEmpty(), Status.WATCHLIST, 0, "", now(),
+                    partOf = partOf,
+                )
             ) + seen
-            existing.status == Status.WATCHLIST -> seen - existing
-            // already seen: clear the rating and move it back to Watch later
-            else -> seen.map {
-                if (it.id == id && it.mediaType == type) it.copy(status = Status.WATCHLIST, rating = 0) else it
+            // only its episodes kept this row: it joins the list as if new,
+            // but the note the user wrote on it stays
+            existing.status == Status.TRACKED -> seen.map {
+                if (it.id == id && it.mediaType == type)
+                    it.copy(status = Status.WATCHLIST, rating = 0, addedAt = now())
+                else it
+            }
+            existing.status == Status.WATCHLIST -> untrack(seen, existing)
+            // already seen: clear the rating and move it back to Watch later,
+            // remembering when it was watched in case it is rated again
+            else -> {
+                removed[key(id, type)] = existing
+                seen.map {
+                    if (it.id == id && it.mediaType == type) it.copy(status = Status.WATCHLIST, rating = 0) else it
+                }
             }
         }
         when {
-            existing == null -> {} // plain add, nothing to undo
+            existing == null || existing.status == Status.TRACKED -> {} // plain add
             existing.status == Status.WATCHLIST -> showUndo(R.string.undo_removed_watchlist, before)
             else -> showUndo(R.string.undo_moved_watchlist, before)
         }
         persist()
     }
+
+    /**
+     * Makes sure the series of a just-tracked episode has a row, since the
+     * lists read the title and poster from it. The series itself joins no
+     * list: that is what [Status.TRACKED] says.
+     */
+    private fun withSeries(list: List<SeenItem>, series: SeriesRef?): List<SeenItem> {
+        if (series == null || series.id.isBlank() || series.title.isBlank()) return list
+        if (list.any { it.id == series.id && it.mediaType == "tv" }) return list
+        return list + SeenItem(
+            series.id, "tv", series.title, series.year, series.posterUrl.orEmpty(),
+            Status.TRACKED, 0, "", now(),
+        )
+    }
+
+    /**
+     * Takes a title out of the lists. A series with tracked episodes keeps its
+     * row so those episodes stay reachable, it just stops being a list entry
+     * of its own.
+     */
+    private fun untrack(list: List<SeenItem>, item: SeenItem): List<SeenItem> =
+        if (item.mediaType == "tv" && episodesOf(item.id).isNotEmpty())
+            list.map { if (it.id == item.id && it.mediaType == item.mediaType) it.copy(status = Status.TRACKED, rating = 0) else it }
+        else list - item
 
     /** Banner saying what just happened, with a cancel action restoring the previous state. */
     private fun showUndo(messageRes: Int, before: List<SeenItem>) {
@@ -249,6 +429,9 @@ class AppViewModel(app: Application) : AndroidViewModel(app) {
 
     fun updateDetails(id: String, type: String, note: String, date: String) {
         val validDate = runCatching { LocalDate.parse(date.trim()) }.getOrNull()
+        // forget the date this title used to carry, or rating it again would
+        // bring that one back over the one just entered
+        if (validDate != null) removed.remove(key(id, type))
         seen = seen.map {
             if (it.id == id && it.mediaType == type) {
                 it.copy(
@@ -295,6 +478,13 @@ class AppViewModel(app: Application) : AndroidViewModel(app) {
     private fun now(): String = LocalDateTime.now().withNano(0).toString()
 
     private fun persist() {
+        // a series kept only for its episodes has nothing left to show once
+        // the last of them is untracked
+        val orphans = seen.filter {
+            it.status == Status.TRACKED && it.partOf.isBlank() && it.mediaType == "tv" &&
+                episodesOf(it.id).isEmpty()
+        }
+        if (orphans.isNotEmpty()) seen = seen - orphans.toSet()
         val snapshot = seen
         viewModelScope.launch(Dispatchers.IO) { store.save(snapshot) }
     }

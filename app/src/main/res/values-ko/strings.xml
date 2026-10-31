@@ -80,4 +80,11 @@
     <string name="licenses_list">• Jetpack Compose\n• Material 3\n• AndroidX 라이브러리\n• OkHttp\n• Coil</string>
     <string name="licenses_data">작품 데이터는 IMDb에서 제공하며, 제한적인 개인적·비상업적 사용이 허용됩니다.</string>
     <string name="link_failed">링크를 열 수 없습니다</string>
+    <string name="expand">에피소드 보기</string>
+    <string name="collapse">에피소드 숨기기</string>
+    <string name="seasons">시즌</string>
+    <string name="episode">에피소드</string>
+    <string name="season_episode">시즌 %1$d, %2$d화</string>
+    <string name="season_short">시즌%1$d</string>
+    <string name="episode_short">%1$d화</string>
 </resources>

@@ -80,4 +80,11 @@
     <string name="licenses_list">• Jetpack Compose\n• Material 3\n• AndroidX 库\n• OkHttp\n• Coil</string>
     <string name="licenses_data">影片数据来自 IMDb，其允许有限的个人非商业使用。</string>
     <string name="link_failed">无法打开链接</string>
+    <string name="expand">显示剧集</string>
+    <string name="collapse">隐藏剧集</string>
+    <string name="seasons">季</string>
+    <string name="episode">单集</string>
+    <string name="season_episode">第%1$d季 第%2$d集</string>
+    <string name="season_short">第%1$d季</string>
+    <string name="episode_short">第%1$d集</string>
 </resources>

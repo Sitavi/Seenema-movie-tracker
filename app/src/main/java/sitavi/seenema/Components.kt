@@ -47,6 +47,7 @@ import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.material3.Card
@@ -74,6 +75,7 @@ import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Dp
@@ -141,6 +143,13 @@ fun MediaCard(
     seen: Boolean = false, // lighter card
     watchLater: Boolean? = null, // null hides the clock; true = in list (lighter card, filled icon)
     onWatchLater: () -> Unit = {},
+    // null hides the chevron; otherwise it shows and reports taps
+    expanded: Boolean? = null,
+    onToggleExpand: () -> Unit = {},
+    // follows the stars the caller puts in `trailing`, so the clock never
+    // ends up larger than the row it sits on
+    controlSize: Dp = 30.dp,
+    expandedContent: @Composable () -> Unit = {},
     trailing: @Composable () -> Unit = {},
 ) {
     var showPoster by remember { mutableStateOf(false) }
@@ -173,6 +182,7 @@ fun MediaCard(
             .fillMaxWidth()
             .padding(horizontal = 12.dp, vertical = 4.dp),
     ) {
+      Column {
         Row(
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier.padding(8.dp)
@@ -196,12 +206,29 @@ fun MediaCard(
                     .height(88.dp)
                     .padding(start = 10.dp, end = 2.dp)
             ) {
-                Text(
-                    title,
-                    style = MaterialTheme.typography.titleMedium,
-                    maxLines = 2,
-                    overflow = TextOverflow.Ellipsis
-                )
+                Row(verticalAlignment = Alignment.Top) {
+                    Text(
+                        title,
+                        style = MaterialTheme.typography.titleMedium,
+                        maxLines = 2,
+                        overflow = TextOverflow.Ellipsis,
+                        modifier = Modifier.weight(1f)
+                    )
+                    if (expanded != null) {
+                        Icon(
+                            Icons.Default.KeyboardArrowDown,
+                            contentDescription = stringResource(
+                                if (expanded) R.string.collapse else R.string.expand
+                            ),
+                            tint = MaterialTheme.colorScheme.onSurfaceVariant,
+                            modifier = Modifier
+                                .clickable(onClick = onToggleExpand)
+                                .padding(2.dp)
+                                .size(26.dp)
+                                .rotate(if (expanded) 180f else 0f)
+                        )
+                    }
+                }
                 Row(Modifier.weight(1f), verticalAlignment = Alignment.Bottom) {
                     // info and date sit directly under the title; the stars and
                     // clock anchor to the card bottom so they sit at the same
@@ -231,29 +258,41 @@ fun MediaCard(
                             )
                         }
                     }
-                    trailing()
-                    if (watchLater != null) {
-                        // sixth element of the star row: same size, spacing and
-                        // press ripple as the stars
-                        Icon(
-                            painterResource(
-                                if (watchLater) R.drawable.ic_watch_later_filled else R.drawable.ic_watch_later
-                            ),
-                            contentDescription = stringResource(
-                                if (watchLater) R.string.watchlist_remove else R.string.watchlist_add
-                            ),
-                            tint = if (watchLater) MaterialTheme.colorScheme.primary
-                            else MaterialTheme.colorScheme.outline,
-                            modifier = Modifier
-                                .padding(start = 2.dp)
-                                .clickable(onClick = onWatchLater)
-                                .padding(2.dp)
-                                .size(30.dp)
-                        )
+                    // The stars and the clock sit on a strip that swallows every
+                    // tap: missing one of them by a few pixels used to count as a
+                    // tap on the card and open the title.
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        modifier = Modifier.pointerInput(Unit) { detectTapGestures {} }
+                    ) {
+                        trailing()
+                        if (watchLater != null) {
+                            // sixth element of the star row: same size, spacing and
+                            // press ripple as the stars
+                            Icon(
+                                painterResource(
+                                    if (watchLater) R.drawable.ic_watch_later_filled else R.drawable.ic_watch_later
+                                ),
+                                contentDescription = stringResource(
+                                    if (watchLater) R.string.watchlist_remove else R.string.watchlist_add
+                                ),
+                                tint = if (watchLater) MaterialTheme.colorScheme.primary
+                                else MaterialTheme.colorScheme.outline,
+                                modifier = Modifier
+                                    .padding(start = 2.dp)
+                                    .clickable(onClick = onWatchLater)
+                                    .padding(2.dp)
+                                    .size(controlSize)
+                            )
+                        }
                     }
                 }
             }
         }
+        if (expanded == true) {
+            Column(Modifier.pointerInput(Unit) { detectTapGestures {} }) { expandedContent() }
+        }
+      }
     }
 }
 

@@ -52,6 +52,9 @@ data class SuggestItem(
     val isPerson: Boolean get() = id.startsWith("nm")
     val isTitle: Boolean get() = id.startsWith("tt")
     val mediaType: String get() = if (qid?.startsWith("tv") == true && qid != "tvMovie") "tv" else "movie"
+
+    /** A run with seasons behind it, as opposed to a one-off TV special. */
+    val isSeries: Boolean get() = qid == "tvSeries" || qid == "tvMiniSeries"
     val year: String get() = y?.toString() ?: ""
 }
 
@@ -67,6 +70,12 @@ data class SuggestItem(
 @Serializable data class GqlGenre(val text: String = "")
 @Serializable data class GqlGenres(val genres: List<GqlGenre> = emptyList())
 @Serializable data class GqlTitleType(val id: String = "")
+
+/** Set only on an episode: which series it belongs to and where it sits in it. */
+@Serializable data class GqlSeriesLink(
+    val series: GqlTitle? = null,
+    val episodeNumber: GqlEpisodeNumber? = null,
+)
 @Serializable data class GqlCharacter(val name: String = "")
 
 @Serializable
@@ -142,10 +151,26 @@ data class GqlTitle(
     val credits: GqlCastCredits? = null,
     val primaryVideos: GqlVideos? = null,
     val principalCredits: List<GqlPrincipalCredit> = emptyList(),
+    val series: GqlSeriesLink? = null,
 ) {
     val displayTitle: String get() = titleText?.text ?: ""
     val yearText: String get() = releaseYear?.year?.toString() ?: ""
     val isTv: Boolean get() = titleType?.id?.startsWith("tv") == true && titleType?.id != "tvMovie"
+
+    /** A run with seasons behind it, as opposed to a one-off TV special. */
+    val isSeriesRun: Boolean
+        get() = titleType?.id == "tvSeries" || titleType?.id == "tvMiniSeries"
+    val seriesId: String get() = series?.series?.id.orEmpty()
+    val seasonNumber: Int? get() = series?.episodeNumber?.seasonNumber
+    val episodeInSeason: Int? get() = series?.episodeNumber?.episodeNumber
+
+    /** "tt0903747:S1E1" when this title is an episode, empty otherwise. */
+    val partOf: String
+        get() {
+            val season = seasonNumber ?: return ""
+            val number = episodeInSeason ?: return ""
+            return if (seriesId.isBlank()) "" else "$seriesId:S${season}E$number"
+        }
     val trailer: GqlVideoNode? get() = primaryVideos?.edges?.firstOrNull()?.node
     val trailerMp4: String?
         get() = trailer?.playbackURLs?.let { urls ->
@@ -197,6 +222,49 @@ data class GqlSearchEntity(
 @Serializable data class GqlMainSearch(val edges: List<GqlSearchEdge> = emptyList())
 @Serializable data class GqlSearchData(val mainSearch: GqlMainSearch? = null)
 @Serializable data class GqlSearchResponse(val data: GqlSearchData? = null)
+
+// ---------- Episodes ----------
+
+@Serializable data class GqlEpisodeNumber(val seasonNumber: Int? = null, val episodeNumber: Int? = null)
+@Serializable data class GqlEpisodeSeries(val episodeNumber: GqlEpisodeNumber? = null)
+@Serializable data class GqlEpisodeNode(
+    val id: String = "",
+    val titleText: GqlText? = null,
+    val primaryImage: GqlImage? = null,
+    val series: GqlEpisodeSeries? = null,
+)
+@Serializable data class GqlEpisodeEdge(val node: GqlEpisodeNode? = null)
+@Serializable data class GqlEpisodeList(
+    val total: Int = 0,
+    val edges: List<GqlEpisodeEdge> = emptyList(),
+)
+@Serializable data class GqlSeasonNumber(val number: Int? = null)
+@Serializable data class GqlEpisodesField(
+    val seasons: List<GqlSeasonNumber> = emptyList(),
+    val episodes: GqlEpisodeList? = null,
+)
+@Serializable data class GqlEpisodesTitle(val episodes: GqlEpisodesField? = null)
+@Serializable data class GqlEpisodesData(val title: GqlEpisodesTitle? = null)
+@Serializable data class GqlEpisodesResponse(val data: GqlEpisodesData? = null)
+
+/** One episode of a series. Episodes are IMDb titles, so each has its own page. */
+data class Episode(
+    val id: String,
+    val title: String,
+    val season: Int,
+    val number: Int,
+    val imageUrl: String?,
+)
+
+/**
+ * What one episode request answered: the seasons the series has, the episodes
+ * it returned, and whether the series holds more than the request could carry.
+ */
+data class EpisodePage(
+    val seasons: List<Int>,
+    val episodes: List<Episode>,
+    val truncated: Boolean,
+)
 
 // ---------- Client ----------
 
@@ -264,10 +332,46 @@ object Imdb {
 
     suspend fun title(id: String): GqlTitle {
         val text = graphql(
-            """query { title(id: "$id") { id titleText { text } titleType { id } releaseYear { year } plot { plotText { plainText } } ratingsSummary { aggregateRating } runtime { seconds } genres { genres { text } } primaryImage { url } principalCredits { category { id text } credits { name { id nameText { text } } } } primaryVideos(first: 1) { edges { node { id name { value } thumbnail { url } playbackURLs { url videoMimeType displayName { value } } } } } credits(first: 25, filter: { categories: ["actor", "actress"] }) { edges { node { name { id nameText { text } primaryImage { url } } ... on Cast { characters { name } } } } } } }"""
+            """query { title(id: "$id") { id titleText { text } titleType { id } releaseYear { year } plot { plotText { plainText } } ratingsSummary { aggregateRating } runtime { seconds } genres { genres { text } } primaryImage { url } series { series { id titleText { text } titleType { id } releaseYear { year } primaryImage { url } } episodeNumber { seasonNumber episodeNumber } } principalCredits { category { id text } credits { name { id nameText { text } } } } primaryVideos(first: 1) { edges { node { id name { value } thumbnail { url } playbackURLs { url videoMimeType displayName { value } } } } } credits(first: 25, filter: { categories: ["actor", "actress"] }) { edges { node { name { id nameText { text } primaryImage { url } } ... on Cast { characters { name } } } } } } }"""
         )
         return json.decodeFromString<GqlTitleResponse>(text).data?.title
             ?: throw IOException("title not found")
+    }
+
+    /** The endpoint never answers with more than this, whatever is asked for. */
+    private const val EPISODE_PAGE = 250
+
+    /**
+     * Episodes of a series, with the list of its seasons. Asked without a
+     * season this takes the whole run in one request, which is all a normal
+     * series needs; a run longer than one page comes back [truncated] and the
+     * caller asks again season by season.
+     */
+    suspend fun episodes(seriesId: String, season: Int? = null): EpisodePage {
+        val filter = season?.let { """, filter: { includeSeasons: ["$it"] }""" } ?: ""
+        val text = graphql(
+            """query { title(id: "$seriesId") { episodes { seasons { number } episodes(first: $EPISODE_PAGE$filter) { total edges { node { id titleText { text } primaryImage { url } series { episodeNumber { seasonNumber episodeNumber } } } } } } } }"""
+        )
+        // a long run parses to a few hundred kilobytes, too much for the main thread
+        return withContext(Dispatchers.Default) {
+            val field = json.decodeFromString<GqlEpisodesResponse>(text).data?.title?.episodes
+                ?: throw IOException("no episodes")
+            val list = field.episodes?.edges.orEmpty()
+                .mapNotNull { it.node }
+                .mapNotNull { n ->
+                    val s = n.series?.episodeNumber?.seasonNumber
+                    val number = n.series?.episodeNumber?.episodeNumber
+                    if (n.id.isBlank() || s == null || number == null) null
+                    else Episode(n.id, n.titleText?.text.orEmpty(), s, number, n.primaryImage?.url)
+                }
+                .sortedWith(compareBy({ it.season }, { it.number }))
+            EpisodePage(
+                seasons = field.seasons.mapNotNull { it.number }.distinct().sorted()
+                    .ifEmpty { list.map { it.season }.distinct().sorted() },
+                episodes = list,
+                truncated = (field.episodes?.total ?: 0) > list.size || list.size >= EPISODE_PAGE,
+            )
+        }
     }
 
     /** Person with their complete list of credited titles (any role), page by page. */

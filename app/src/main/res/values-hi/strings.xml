@@ -81,4 +81,11 @@
     <string name="licenses_list">• Jetpack Compose\n• Material 3\n• AndroidX लाइब्रेरी\n• OkHttp\n• Coil</string>
     <string name="licenses_data">फ़िल्म डेटा IMDb से आता है, जो सीमित व्यक्तिगत, ग़ैर-व्यावसायिक उपयोग की अनुमति देता है।</string>
     <string name="link_failed">लिंक नहीं खोला जा सका</string>
+    <string name="expand">एपिसोड दिखाएँ</string>
+    <string name="collapse">एपिसोड छिपाएँ</string>
+    <string name="seasons">सीज़न</string>
+    <string name="episode">एपिसोड</string>
+    <string name="season_episode">सीज़न %1$d, एपिसोड %2$d</string>
+    <string name="season_short">S%1$d</string>
+    <string name="episode_short">E%1$d</string>
 </resources>

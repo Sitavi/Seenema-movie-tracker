@@ -168,12 +168,41 @@ private fun TitleContent(
                     width = 500
                 )
                 Column(Modifier.padding(start = 16.dp)) {
+                    // An episode opens with its series, the way IMDb heads the
+                    // page, and the name goes back up to the series itself.
+                    val parentTitle = d.series?.series?.titleText?.text
+                    if (type == EPISODE && !parentTitle.isNullOrBlank() && d.seriesId.isNotBlank()) {
+                        Text(
+                            parentTitle,
+                            style = MaterialTheme.typography.titleSmall,
+                            color = MaterialTheme.colorScheme.primary,
+                            maxLines = 1,
+                            overflow = TextOverflow.Ellipsis,
+                            modifier = Modifier.clickable {
+                                val route = "title/tv/${d.seriesId}"
+                                if (!nav.popBackStack(route, inclusive = false)) nav.navigate(route)
+                            }
+                        )
+                        Spacer(Modifier.height(2.dp))
+                    }
                     Text(d.displayTitle, style = MaterialTheme.typography.headlineSmall)
+                    val season = d.seasonNumber
+                    val number = d.episodeInSeason
+                    if (type == EPISODE && season != null && number != null) {
+                        Spacer(Modifier.height(2.dp))
+                        Text(
+                            stringResource(R.string.season_episode, season, number),
+                            style = MaterialTheme.typography.bodyMedium,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant
+                        )
+                    }
                     Spacer(Modifier.height(4.dp))
                     val info = listOfNotNull(
                         d.yearText.ifBlank { null },
-                        if (type == "tv") stringResource(R.string.series)
-                        else d.runtime?.seconds?.takeIf { it > 0 }?.let { "${it / 60} min" },
+                        if (type == "tv") stringResource(R.string.series) else null,
+                        if (type == EPISODE) stringResource(R.string.episode) else null,
+                        d.runtime?.seconds?.takeIf { it > 0 }?.let { "${it / 60} min" }
+                            .takeIf { type != "tv" },
                         d.ratingsSummary?.aggregateRating?.takeIf { it > 0 }?.let { "IMDb " + "%.1f".format(it) + "/10" },
                     ).joinToString("  •  ")
                     if (info.isNotBlank()) {
@@ -214,10 +243,20 @@ private fun TitleContent(
                     Text(overview, style = MaterialTheme.typography.bodyMedium)
                     Spacer(Modifier.height(12.dp))
                 }
+                // Rated or listed from here, an episode must carry the same
+                // series link the season list writes, or it would surface in
+                // the library as a title of its own.
+                val partOf = if (type == EPISODE) d.partOf else ""
+                val parent = d.series?.series?.takeIf { partOf.isNotBlank() }?.let {
+                    SeriesRef(it.id, it.displayTitle, it.yearText, it.primaryImage?.url)
+                }
                 val myRating = vm.ratingOf(d.id, type)
                 Box(Modifier.align(Alignment.CenterHorizontally)) {
                     StarRating(myRating, starSize = 38.dp) {
-                        vm.rate(d.id, type, d.displayTitle, d.yearText, d.primaryImage?.url, it)
+                        vm.rate(
+                            d.id, type, d.displayTitle, d.yearText, d.primaryImage?.url, it,
+                            partOf = partOf, series = parent,
+                        )
                     }
                 }
                 Text(
@@ -266,7 +305,10 @@ private fun TitleContent(
                 val inWatchlist = vm.statusOf(d.id, type) == Status.WATCHLIST
                 TextButton(
                     onClick = {
-                        vm.toggleWatchlist(d.id, type, d.displayTitle, d.yearText, d.primaryImage?.url)
+                        vm.toggleWatchlist(
+                            d.id, type, d.displayTitle, d.yearText, d.primaryImage?.url,
+                            partOf = partOf, series = parent,
+                        )
                     },
                     modifier = Modifier.align(Alignment.CenterHorizontally)
                 ) {
@@ -305,6 +347,21 @@ private fun TitleContent(
                         Text(stringResource(R.string.trailer))
                     }
                 }
+            }
+        }
+        if (type == "tv" && d.isSeriesRun) {
+            item {
+                Text(
+                    stringResource(R.string.seasons),
+                    style = MaterialTheme.typography.titleMedium,
+                    modifier = Modifier.padding(start = 16.dp, top = 16.dp, bottom = 6.dp)
+                )
+            }
+            item {
+                SeasonEpisodes(
+                    vm, nav,
+                    SeriesRef(d.id, d.displayTitle, d.yearText, d.primaryImage?.url)
+                )
             }
         }
         val cast = d.credits?.edges.orEmpty().mapNotNull { it.node }.filter { it.name != null }

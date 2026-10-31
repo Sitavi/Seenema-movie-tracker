@@ -26,6 +26,13 @@ import java.io.File
 object Status {
     const val SEEN = "seen"
     const val WATCHLIST = "watchlist"
+
+    /**
+     * A series that is in neither list on its own and is only kept because
+     * some of its episodes are tracked. Its row carries the title, year and
+     * poster the lists need; the lists it appears in come from the episodes.
+     */
+    const val TRACKED = "tracked"
 }
 
 data class SeenItem(
@@ -34,10 +41,36 @@ data class SeenItem(
     val title: String,
     val year: String,
     val posterUrl: String,
-    val status: String, // Status.SEEN or Status.WATCHLIST
+    val status: String, // Status.SEEN, Status.WATCHLIST or Status.TRACKED
     val rating: Int, // 1..5 stars, 0 if unrated / watchlist
     val note: String,
     val addedAt: String, // ISO-8601 local date-time, sorts lexicographically
+    // empty for films and series; for an episode, the series it belongs to
+    // plus its place in the run, e.g. "tt0903747:S1E1"
+    val partOf: String = "",
+) {
+    /** The series an episode belongs to; empty on a film or a series row. */
+    val seriesId: String get() = partOf.substringBefore(':', "")
+}
+
+/**
+ * Seasons and episodes known for one series. [complete] says the whole run is
+ * here; otherwise only [loadedSeasons] have been fetched and the rest arrive as
+ * the user opens them.
+ */
+data class SeriesEpisodes(
+    val seasons: List<Int> = emptyList(),
+    val episodes: List<Episode> = emptyList(),
+    val loadedSeasons: Set<Int> = emptySet(),
+    val complete: Boolean = false,
+)
+
+/** The parent series of an episode, as the lists need to show it. */
+data class SeriesRef(
+    val id: String,
+    val title: String,
+    val year: String,
+    val posterUrl: String?,
 )
 
 /**
@@ -69,8 +102,13 @@ class SeenStore(private val context: Context) {
                 // id,type,title,year,poster_url,status,rating,note,added_at
                 row.size >= 9 && row[0].isNotBlank() -> SeenItem(
                     row[0], row[1], row[2], row[3], row[4],
-                    if (row[5] == Status.WATCHLIST) Status.WATCHLIST else Status.SEEN,
+                    when (row[5]) {
+                        Status.WATCHLIST -> Status.WATCHLIST
+                        Status.TRACKED -> Status.TRACKED
+                        else -> Status.SEEN
+                    },
                     row[6].toIntOrNull() ?: 0, row[7], row[8],
+                    partOf = row.getOrElse(9) { "" },
                 )
                 // id,type,title,year,poster_url,rating,added_at
                 row.size == 7 && row[0].isNotBlank() -> SeenItem(
@@ -88,7 +126,7 @@ class SeenStore(private val context: Context) {
     @Synchronized
     fun save(items: List<SeenItem>) {
         try {
-            val sb = StringBuilder("id,type,title,year,poster_url,status,rating,note,added_at\r\n")
+            val sb = StringBuilder("id,type,title,year,poster_url,status,rating,note,added_at,part_of\r\n")
             for (item in items) {
                 sb.append(
                     listOf(
@@ -97,7 +135,7 @@ class SeenStore(private val context: Context) {
                         // empty (not "0") when unrated, so exported data can't be
                         // read as a zero-out-of-five rating
                         if (item.rating > 0) item.rating.toString() else "",
-                        item.note, item.addedAt,
+                        item.note, item.addedAt, item.partOf,
                     ).joinToString(",") { esc(it) }
                 ).append("\r\n")
             }
