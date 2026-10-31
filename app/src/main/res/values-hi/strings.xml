@@ -88,4 +88,5 @@
     <string name="season_episode">सीज़न %1$d, एपिसोड %2$d</string>
     <string name="season_short">S%1$d</string>
     <string name="episode_short">E%1$d</string>
+    <string name="imdb_hidden">IMDb छिपा हुआ</string>
 </resources>

@@ -89,4 +89,5 @@
     <string name="season_episode">Temporada %1$d, episodio %2$d</string>
     <string name="season_short">T%1$d</string>
     <string name="episode_short">E%1$d</string>
+    <string name="imdb_hidden">IMDb oculta</string>
 </resources>

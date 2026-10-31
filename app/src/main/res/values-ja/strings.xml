@@ -87,4 +87,5 @@
     <string name="season_episode">シーズン%1$d 第%2$d話</string>
     <string name="season_short">シーズン%1$d</string>
     <string name="episode_short">第%1$d話</string>
+    <string name="imdb_hidden">IMDb 非表示</string>
 </resources>

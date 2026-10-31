@@ -73,10 +73,13 @@ class AppViewModel(app: Application) : AndroidViewModel(app) {
         private set
     var sortAsc by mutableStateOf(false)
         private set
+    var showImdbScore by mutableStateOf(true)
+        private set
 
     init {
         sortMode = prefs.getString("sort", SortMode.DATE) ?: SortMode.DATE
         sortAsc = prefs.getBoolean("sortAsc", false)
+        showImdbScore = prefs.getBoolean("imdbScore", true)
         viewModelScope.launch(Dispatchers.IO) {
             val loaded = store.load().sortedByDescending { it.addedAt }
             withContext(Dispatchers.Main) { seen = loaded }
@@ -115,6 +118,11 @@ class AppViewModel(app: Application) : AndroidViewModel(app) {
     fun setSortDirection(asc: Boolean) {
         sortAsc = asc
         persistSort()
+    }
+
+    fun toggleImdbScore() {
+        showImdbScore = !showImdbScore
+        prefs.edit().putBoolean("imdbScore", showImdbScore).apply()
     }
 
     private fun persistSort() {

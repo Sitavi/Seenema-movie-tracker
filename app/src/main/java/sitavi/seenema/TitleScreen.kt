@@ -75,6 +75,12 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.LinkAnnotation
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.TextLinkStyles
+import androidx.compose.ui.text.style.TextDecoration
+import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.withLink
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
@@ -203,11 +209,29 @@ private fun TitleContent(
                         if (type == EPISODE) stringResource(R.string.episode) else null,
                         d.runtime?.seconds?.takeIf { it > 0 }?.let { "${it / 60} min" }
                             .takeIf { type != "tv" },
-                        d.ratingsSummary?.aggregateRating?.takeIf { it > 0 }?.let { "IMDb " + "%.1f".format(it) + "/10" },
                     ).joinToString("  •  ")
-                    if (info.isNotBlank()) {
+                    val score = d.ratingsSummary?.aggregateRating?.takeIf { it > 0 }?.let {
+                        if (vm.showImdbScore) "IMDb " + "%.1f".format(it) + "/10"
+                        else stringResource(R.string.imdb_hidden)
+                    }
+                    if (info.isNotBlank() || score != null) {
                         Text(
-                            info,
+                            buildAnnotatedString {
+                                append(info)
+                                if (score != null) {
+                                    if (info.isNotBlank()) append("  •  ")
+                                    // the score alone answers the tap, so the rest
+                                    // of the line stays plain text
+                                    withLink(
+                                        // styled like the rest of the line: it toggles
+                                        // the score, it does not open a page
+                                        LinkAnnotation.Clickable(
+                                            "imdb",
+                                            TextLinkStyles(SpanStyle(textDecoration = TextDecoration.None)),
+                                        ) { vm.toggleImdbScore() }
+                                    ) { append(score) }
+                                }
+                            },
                             style = MaterialTheme.typography.bodyMedium,
                             color = MaterialTheme.colorScheme.onSurfaceVariant
                         )

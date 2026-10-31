@@ -87,4 +87,5 @@
     <string name="season_episode">시즌 %1$d, %2$d화</string>
     <string name="season_short">시즌%1$d</string>
     <string name="episode_short">%1$d화</string>
+    <string name="imdb_hidden">IMDb 숨김</string>
 </resources>
