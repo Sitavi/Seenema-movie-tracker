@@ -1,0 +1,1 @@
+Series can now be tracked episode by episode. Open a series to rate or save a single episode, and its card in your lists expands into seasons and episodes. Tapping the IMDb score under a title toggles it between shown and hidden.
