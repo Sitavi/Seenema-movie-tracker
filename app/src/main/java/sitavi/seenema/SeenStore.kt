@@ -99,11 +99,12 @@ class SeenStore(private val context: Context) {
     fun parseItems(text: String): List<SeenItem> =
         parseCsv(text).drop(1).mapNotNull { row ->
             when {
-                // id,type,title,year,poster_url,status,rating,note,added_at
+                // id,type,title,year,poster_url,status,rating,note,added_at,part_of,tracked
                 row.size >= 9 && row[0].isNotBlank() -> SeenItem(
                     row[0], row[1], row[2], row[3], row[4],
                     when (row[5]) {
-                        Status.WATCHLIST -> Status.WATCHLIST
+                        Status.WATCHLIST ->
+                            if (row.getOrElse(10) { "" } == "1") Status.TRACKED else Status.WATCHLIST
                         Status.TRACKED -> Status.TRACKED
                         else -> Status.SEEN
                     },
@@ -126,16 +127,17 @@ class SeenStore(private val context: Context) {
     @Synchronized
     fun save(items: List<SeenItem>) {
         try {
-            val sb = StringBuilder("id,type,title,year,poster_url,status,rating,note,added_at,part_of\r\n")
+            val sb = StringBuilder("id,type,title,year,poster_url,status,rating,note,added_at,part_of,tracked\r\n")
             for (item in items) {
                 sb.append(
                     listOf(
                         item.id, item.mediaType, item.title, item.year, item.posterUrl,
-                        item.status,
+                        if (item.status == Status.TRACKED) Status.WATCHLIST else item.status,
                         // empty (not "0") when unrated, so exported data can't be
                         // read as a zero-out-of-five rating
                         if (item.rating > 0) item.rating.toString() else "",
                         item.note, item.addedAt, item.partOf,
+                        if (item.status == Status.TRACKED) "1" else "",
                     ).joinToString(",") { esc(it) }
                 ).append("\r\n")
             }

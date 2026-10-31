@@ -80,7 +80,31 @@ class AppViewModel(app: Application) : AndroidViewModel(app) {
         viewModelScope.launch(Dispatchers.IO) {
             val loaded = store.load().sortedByDescending { it.addedAt }
             withContext(Dispatchers.Main) { seen = loaded }
+            relinkEpisodes()
         }
+    }
+
+    private suspend fun relinkEpisodes() {
+        val lost = seen.filter { it.mediaType == EPISODE && it.partOf.isBlank() }
+        if (lost.isEmpty()) return
+        for (item in lost) {
+            val d = runCatching { Imdb.title(item.id) }.getOrNull() ?: continue
+            if (d.displayTitle.isBlank()) continue
+            val link = d.series?.series
+            val partOf = d.partOf
+            withContext(Dispatchers.Main) {
+                seen = if (link == null || partOf.isBlank()) {
+                    val real = if (d.isTv) "tv" else "movie"
+                    seen.map { if (it.id == item.id && it.mediaType == EPISODE) it.copy(mediaType = real) else it }
+                } else {
+                    withSeries(
+                        seen.map { if (it.id == item.id && it.mediaType == EPISODE) it.copy(partOf = partOf) else it },
+                        SeriesRef(link.id, link.displayTitle, link.yearText, link.primaryImage?.url),
+                    )
+                }
+            }
+        }
+        withContext(Dispatchers.Main) { persist() }
     }
 
     fun setSort(mode: String) {
